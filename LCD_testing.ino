@@ -11,6 +11,7 @@ void setup()
   pinMode(btn,INPUT);
   pinMode(hSens,INPUT);
   lcd.begin(16,2);
+  Serial.begin(9600);
 }
 
 int btnState;
@@ -18,6 +19,9 @@ double dist1;
 double dist2;
 double velocity;
 int state;
+int counter;
+int prevTime;
+double s, v, a;
 
 void velFunction()                        //speedometer display
 {
@@ -54,22 +58,23 @@ void loop()
   lcd.setCursor(0,0);
   lcd.print("Speedometer");
   lcd.setCursor(0,1);
-  lcd.print(String(velocity,2) + "m/s");
-  dist1 = 0;
-  state = digitalRead(hSens);
-  if(state == LOW)
-  {
-    while(1)
-    {
-      state = digitalRead(hSens);
-      if(state == HIGH)
-      {
-        dist1 += 2*PI*0.3;
-        dist2 += 2*PI*0.3;
-        velocity = dist1/(millis()/1000);
+  lcd.print(String(v,2) + " m/s");
+
+  if(digitalRead(2) == LOW) {
+    while (1) {
+      int currTime = millis();
+      if (digitalRead(2) == HIGH) {
+        counter ++;
+        dist1 = counter * PI * 2 * 1;
+        dist2 = counter * PI * 2 * 1;
+        v = PI * 2 * 1 / (currTime - prevTime);
+        Serial.print(v);
+        prevTime = currTime;
+
         break;
       }
     }
   }
+  
   chgDisp();
 }
