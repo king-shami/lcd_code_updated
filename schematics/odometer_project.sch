@@ -8,8 +8,8 @@ Title "Odometer I2C Interface"
 Date "2020-10-03"
 Rev "2.1"
 Comp "DES Gang"
-Comment1 "refer to referenced sheets where nessesary"
-Comment2 ""
+Comment1 "just use buttons and pull down resistors for the butotn selection - dw bout debouncing just yet..."
+Comment2 "dont worry about attaching a second hall effect for now"
 Comment3 ""
 Comment4 ""
 $EndDescr
@@ -59,8 +59,6 @@ F 3 "" H 10200 2000 50  0001 C CNN
 $EndComp
 Text GLabel 8700 1700 0    50   Input ~ 0
 lcd_enable
-Text GLabel 8700 1800 0    50   Input ~ 0
-lcd_rw
 Text GLabel 8700 1900 0    50   Input ~ 0
 lcd_rs
 Wire Wire Line
@@ -71,8 +69,6 @@ Wire Wire Line
 	8700 1700 8800 1700
 Wire Wire Line
 	8700 1900 8800 1900
-Wire Wire Line
-	8800 1800 8700 1800
 Wire Wire Line
 	9600 2000 9700 2000
 Wire Wire Line
@@ -776,23 +772,6 @@ Wire Wire Line
 Connection ~ 5200 3050
 Wire Wire Line
 	5200 3050 5700 3050
-Text GLabel 7650 1800 2    50   Input ~ 0
-lcd_rw
-Wire Wire Line
-	7650 1800 7500 1800
-Wire Wire Line
-	7500 1800 7500 1950
-$Comp
-L power:GND #PWR0121
-U 1 1 5F875B74
-P 7500 1950
-F 0 "#PWR0121" H 7500 1700 50  0001 C CNN
-F 1 "GND" H 7505 1777 50  0000 C CNN
-F 2 "" H 7500 1950 50  0001 C CNN
-F 3 "" H 7500 1950 50  0001 C CNN
-	1    7500 1950
-	1    0    0    -1  
-$EndComp
 $Comp
 L Device:R_POT RV1
 U 1 1 5F87A988
@@ -839,4 +818,23 @@ Wire Wire Line
 Connection ~ 1700 2000
 Wire Wire Line
 	1700 2000 1700 1900
+Text Notes 2200 4550 0    50   ~ 10
+Don't stress about these jumpers.\nJust connect a line straight from soft_reset
+Text Notes 5600 4250 0    50   ~ 10
+dont worry about the\nsecond hall effect sensor
+Wire Wire Line
+	8300 1800 8300 1950
+$Comp
+L power:GND #PWR0121
+U 1 1 5F875B74
+P 8300 1950
+F 0 "#PWR0121" H 8300 1700 50  0001 C CNN
+F 1 "GND" H 8305 1777 50  0000 C CNN
+F 2 "" H 8300 1950 50  0001 C CNN
+F 3 "" H 8300 1950 50  0001 C CNN
+	1    8300 1950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8300 1800 8800 1800
 $EndSCHEMATC
