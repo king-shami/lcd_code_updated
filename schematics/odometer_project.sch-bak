@@ -1,16 +1,15 @@
 EESchema Schematic File Version 4
-LIBS:odometer_project-cache
 EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 4
-Title ""
-Date ""
-Rev ""
-Comp ""
-Comment1 ""
-Comment2 ""
+Title "Odometer I2C Interface"
+Date "2020-10-03"
+Rev "2.1"
+Comp "DES Gang"
+Comment1 "just use buttons and pull down resistors for the butotn selection - dw bout debouncing just yet..."
+Comment2 "dont worry about attaching a second hall effect for now"
 Comment3 ""
 Comment4 ""
 $EndDescr
@@ -60,8 +59,6 @@ F 3 "" H 10200 2000 50  0001 C CNN
 $EndComp
 Text GLabel 8700 1700 0    50   Input ~ 0
 lcd_enable
-Text GLabel 8700 1800 0    50   Input ~ 0
-lcd_rw
 Text GLabel 8700 1900 0    50   Input ~ 0
 lcd_rs
 Wire Wire Line
@@ -72,8 +69,6 @@ Wire Wire Line
 	8700 1700 8800 1700
 Wire Wire Line
 	8700 1900 8800 1900
-Wire Wire Line
-	8800 1800 8700 1800
 Wire Wire Line
 	9600 2000 9700 2000
 Wire Wire Line
@@ -331,8 +326,6 @@ $EndComp
 Text Notes 1650 7500 0    98   ~ 20
 Button Selection\n
 Wire Notes Line
-	600  5000 4200 5000
-Wire Notes Line
 	7050 3700 11150 3700
 Wire Notes Line
 	9150 3700 9150 6450
@@ -347,14 +340,14 @@ vout
 $Sheet
 S 800  5800 850  200 
 U 5F7B6E63
-F0 "switch_debounced" 50
+F0 "sw1" 50
 F1 "switch_debounced.sch" 50
 F2 "vout" O R 1650 5900 50 
 $EndSheet
 $Sheet
 S 800  6200 850  200 
 U 5F7CC063
-F0 "sheet5F7CC05F" 50
+F0 "sw2" 50
 F1 "switch_debounced.sch" 50
 F2 "vout" O R 1650 6300 50 
 $EndSheet
@@ -369,7 +362,7 @@ Wire Wire Line
 $Sheet
 S 800  6600 850  200 
 U 5F7CF7BD
-F0 "sheet5F7CF7B9" 50
+F0 "sw3" 50
 F1 "switch_debounced.sch" 50
 F2 "vout" O R 1650 6700 50 
 $EndSheet
@@ -378,23 +371,21 @@ Wire Wire Line
 Wire Wire Line
 	1950 6100 2400 6100
 Wire Wire Line
-	8600 2500 8800 2500
+	8600 2900 8800 2900
 Wire Wire Line
-	8800 2400 8600 2400
+	8800 2800 8600 2800
 Wire Wire Line
-	8800 2300 8600 2300
+	8800 2700 8600 2700
 Wire Wire Line
-	8800 2200 8600 2200
-Text GLabel 8600 2500 0    50   Input ~ 0
+	8800 2600 8600 2600
+Text GLabel 8600 2900 0    50   Input ~ 0
 lcd_bit4
-Text GLabel 8600 2400 0    50   Input ~ 0
+Text GLabel 8600 2800 0    50   Input ~ 0
 lcd_bit3
-Text GLabel 8600 2300 0    50   Input ~ 0
+Text GLabel 8600 2700 0    50   Input ~ 0
 lcd_bit2
-Text GLabel 8600 2200 0    50   Input ~ 0
+Text GLabel 8600 2600 0    50   Input ~ 0
 lcd_bit1
-Wire Notes Line
-	7050 500  7050 6450
 $Comp
 L Device:C C1
 U 1 1 5F805A7E
@@ -455,15 +446,9 @@ F 3 "" H 1600 4250 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	1700 2100 1700 1900
+	1700 2100 1700 2000
 Wire Wire Line
 	1600 4100 1600 4250
-Text GLabel 2400 3300 2    50   Input ~ 0
-lcd_bit1
-Text GLabel 2400 3200 2    50   Input ~ 0
-lcd_bit2
-Text GLabel 2400 3100 2    50   Input ~ 0
-lcd_bit3
 Wire Wire Line
 	2400 3100 2300 3100
 Wire Wire Line
@@ -474,6 +459,108 @@ Text GLabel 1300 2700 0    50   Input ~ 0
 SDA
 Text GLabel 1300 2600 0    50   Input ~ 0
 SCL
+$Comp
+L Connector:Conn_01x03_Female J2
+U 1 1 5F7812F4
+P 5900 1200
+F 0 "J2" H 5792 875 50  0000 C CNN
+F 1 "Conn_01x03_Female" H 5792 966 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Horizontal" H 5900 1200 50  0001 C CNN
+F 3 "~" H 5900 1200 50  0001 C CNN
+F 4 "952-2245-ND" H 5900 1200 50  0001 C CNN "Digi-Key Part Number"
+F 5 "P5430" H 5900 1200 50  0001 C CNN "Altronics Part Number"
+	1    5900 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR013
+U 1 1 5F7874BC
+P 5700 1600
+F 0 "#PWR013" H 5700 1350 50  0001 C CNN
+F 1 "GND" H 5705 1427 50  0000 C CNN
+F 2 "" H 5700 1600 50  0001 C CNN
+F 3 "" H 5700 1600 50  0001 C CNN
+	1    5700 1600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5700 1300 5700 1600
+$Comp
+L power:+5V #PWR012
+U 1 1 5F78A72E
+P 5700 800
+F 0 "#PWR012" H 5700 650 50  0001 C CNN
+F 1 "+5V" H 5715 973 50  0000 C CNN
+F 2 "" H 5700 800 50  0001 C CNN
+F 3 "" H 5700 800 50  0001 C CNN
+	1    5700 800 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5700 800  5700 1100
+Text Notes 1850 1250 0    98   ~ 20
+Arduino Nano
+Wire Wire Line
+	2400 3000 2300 3000
+Wire Wire Line
+	2300 2900 2400 2900
+Wire Wire Line
+	2300 2700 2400 2700
+Wire Wire Line
+	2400 2600 2300 2600
+Wire Wire Line
+	2300 2500 2400 2500
+Wire Notes Line
+	4200 550  4200 7750
+$Comp
+L power:+5V #PWR0116
+U 1 1 5F79699A
+P 5700 2650
+F 0 "#PWR0116" H 5700 2500 50  0001 C CNN
+F 1 "+5V" H 5715 2823 50  0000 C CNN
+F 2 "" H 5700 2650 50  0001 C CNN
+F 3 "" H 5700 2650 50  0001 C CNN
+	1    5700 2650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5700 2650 5700 2950
+Wire Wire Line
+	5700 3150 5700 3450
+$Comp
+L power:GND #PWR0117
+U 1 1 5F796993
+P 5700 3450
+F 0 "#PWR0117" H 5700 3200 50  0001 C CNN
+F 1 "GND" H 5705 3277 50  0000 C CNN
+F 2 "" H 5700 3450 50  0001 C CNN
+F 3 "" H 5700 3450 50  0001 C CNN
+	1    5700 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x03_Female J1
+U 1 1 5F79698D
+P 5900 3050
+F 0 "J1" H 5792 2725 50  0000 C CNN
+F 1 "Conn_01x03_Female" H 5792 2816 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Horizontal" H 5900 3050 50  0001 C CNN
+F 3 "~" H 5900 3050 50  0001 C CNN
+F 4 "952-2245-ND" H 5900 3050 50  0001 C CNN "Digi-Key Part Number"
+F 5 "P5430" H 5900 3050 50  0001 C CNN "Altronics Part Number"
+	1    5900 3050
+	1    0    0    -1  
+$EndComp
+Wire Notes Line
+	600  5000 4200 5000
+Text GLabel 4950 1200 0    50   Input ~ 0
+hall1
+Text GLabel 2400 2600 2    50   Input ~ 0
+state_down
+Text GLabel 2400 2500 2    50   Input ~ 0
+state_up
+Text GLabel 2400 2700 2    50   Input ~ 0
+lcd_enable
 $Comp
 L odometer_project-rescue:Arduino_Nano_v2.x-MCU_Module A1
 U 1 1 5F6EAD86
@@ -486,77 +573,268 @@ F 4 "929974E-01-15-ND" H 1800 3100 50  0001 C CNN "Digi-Key Part Number"
 	1    1800 3100
 	-1   0    0    1   
 $EndComp
-Text GLabel 2400 2900 2    50   Input ~ 0
-lcd_rs
-Text GLabel 2400 2800 2    50   Input ~ 0
-lcd_rw
-$Comp
-L Connector:Conn_01x03_Female J2
-U 1 1 5F7812F4
-P 3400 3400
-F 0 "J2" H 3292 3075 50  0000 C CNN
-F 1 "Conn_01x03_Female" H 3292 3166 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Horizontal" H 3400 3400 50  0001 C CNN
-F 3 "~" H 3400 3400 50  0001 C CNN
-F 4 "952-2245-ND" H 3400 3400 50  0001 C CNN "Digi-Key Part Number"
-F 5 "P5430" H 3400 3400 50  0001 C CNN "Altronics Part Number"
-	1    3400 3400
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR013
-U 1 1 5F7874BC
-P 3200 3800
-F 0 "#PWR013" H 3200 3550 50  0001 C CNN
-F 1 "GND" H 3205 3627 50  0000 C CNN
-F 2 "" H 3200 3800 50  0001 C CNN
-F 3 "" H 3200 3800 50  0001 C CNN
-	1    3200 3800
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3200 3500 3200 3800
-$Comp
-L power:+5V #PWR012
-U 1 1 5F78A72E
-P 3200 3000
-F 0 "#PWR012" H 3200 2850 50  0001 C CNN
-F 1 "+5V" H 3215 3173 50  0000 C CNN
-F 2 "" H 3200 3000 50  0001 C CNN
-F 3 "" H 3200 3000 50  0001 C CNN
-	1    3200 3000
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3200 3000 3200 3300
-Text GLabel 2400 2700 2    50   Input ~ 0
-lcd_enable
-Text GLabel 2400 2500 2    50   Input ~ 0
-state_up
-Text GLabel 2400 2600 2    50   Input ~ 0
-state_down
-Text GLabel 2400 3500 2    50   Input ~ 0
-soft_reset
-Wire Wire Line
-	2400 3500 2300 3500
-Wire Wire Line
-	2300 3400 3200 3400
-Text Notes 1850 1250 0    98   ~ 20
-Arduino Nano
+Text GLabel 2400 3400 2    50   Input ~ 0
+hall1
 Text GLabel 2400 3000 2    50   Input ~ 0
 lcd_bit4
+Text GLabel 3450 2400 2    50   Input ~ 0
+soft_reset
+Text GLabel 2400 2900 2    50   Input ~ 0
+lcd_rs
+Text GLabel 2400 3100 2    50   Input ~ 0
+lcd_bit3
+Text GLabel 2400 3200 2    50   Input ~ 0
+lcd_bit2
+Text GLabel 2400 3300 2    50   Input ~ 0
+lcd_bit1
+Text GLabel 3450 4150 2    50   Input ~ 0
+hall2
 Wire Wire Line
-	2400 3000 2300 3000
-Wire Wire Line
-	2300 2900 2400 2900
-Wire Wire Line
-	2400 2800 2300 2800
-Wire Wire Line
-	2300 2700 2400 2700
-Wire Wire Line
-	2400 2600 2300 2600
-Wire Wire Line
-	2300 2500 2400 2500
+	2400 3400 2300 3400
 Wire Notes Line
-	4200 550  4200 7750
+	7050 500  7050 6450
+Wire Wire Line
+	3450 4150 3350 4150
+$Comp
+L Jumper:Jumper_3_Open JP2
+U 1 1 5F7DCDC4
+P 3350 3800
+F 0 "JP2" V 3304 3887 50  0000 L CNN
+F 1 "Jumper_3_Open" V 3395 3887 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 3350 3800 50  0001 C CNN
+F 3 "~" H 3350 3800 50  0001 C CNN
+	1    3350 3800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3350 4050 3350 4150
+Text GLabel 3450 3450 2    50   Input ~ 0
+soft_reset
+Wire Wire Line
+	3450 3450 3350 3450
+Wire Wire Line
+	3350 3450 3350 3550
+$Comp
+L Jumper:Jumper_3_Open JP1
+U 1 1 5F7F2B74
+P 3350 2800
+F 0 "JP1" V 3304 2887 50  0000 L CNN
+F 1 "Jumper_3_Open" V 3395 2887 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 3350 2800 50  0001 C CNN
+F 3 "~" H 3350 2800 50  0001 C CNN
+	1    3350 2800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3450 2400 3350 2400
+Wire Wire Line
+	3350 2400 3350 2550
+Wire Wire Line
+	3200 2800 2300 2800
+$Comp
+L power:GND #PWR0118
+U 1 1 5F80652A
+P 3350 3150
+F 0 "#PWR0118" H 3350 2900 50  0001 C CNN
+F 1 "GND" H 3355 2977 50  0000 C CNN
+F 2 "" H 3350 3150 50  0001 C CNN
+F 3 "" H 3350 3150 50  0001 C CNN
+	1    3350 3150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3350 3050 3350 3150
+Wire Wire Line
+	3200 3800 3000 3800
+Wire Wire Line
+	3000 3800 3000 3500
+Wire Wire Line
+	3000 3500 2300 3500
+Text GLabel 4950 3050 0    50   Input ~ 0
+hall2
+Wire Wire Line
+	4950 3050 5200 3050
+Wire Wire Line
+	5700 1200 5100 1200
+$Comp
+L Device:LED D?
+U 1 1 5F84F1A9
+P 5100 2000
+AR Path="/5F7B6E63/5F84F1A9" Ref="D?"  Part="1" 
+AR Path="/5F7CC063/5F84F1A9" Ref="D?"  Part="1" 
+AR Path="/5F7CF7BD/5F84F1A9" Ref="D?"  Part="1" 
+AR Path="/5F84F1A9" Ref="D4"  Part="1" 
+F 0 "D4" V 5139 1883 50  0000 R CNN
+F 1 "LED_Yellow" V 5048 1883 50  0000 R CNN
+F 2 "LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 5100 2000 50  0001 C CNN
+F 3 "~" H 5100 2000 50  0001 C CNN
+	1    5100 2000
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	5100 1750 5100 1850
+$Comp
+L Device:R R?
+U 1 1 5F84F1B0
+P 5100 1600
+AR Path="/5F7B6E63/5F84F1B0" Ref="R?"  Part="1" 
+AR Path="/5F7CC063/5F84F1B0" Ref="R?"  Part="1" 
+AR Path="/5F7CF7BD/5F84F1B0" Ref="R?"  Part="1" 
+AR Path="/5F84F1B0" Ref="R11"  Part="1" 
+F 0 "R11" H 5031 1554 50  0000 R CNN
+F 1 "330" H 5031 1645 50  0000 R CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 5030 1600 50  0001 C CNN
+F 3 "~" H 5100 1600 50  0001 C CNN
+	1    5100 1600
+	1    0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5F84F1B7
+P 5100 2350
+AR Path="/5F7B6E63/5F84F1B7" Ref="#PWR?"  Part="1" 
+AR Path="/5F7BFBA0/5F84F1B7" Ref="#PWR?"  Part="1" 
+AR Path="/5F7C314F/5F84F1B7" Ref="#PWR?"  Part="1" 
+AR Path="/5F7CC063/5F84F1B7" Ref="#PWR?"  Part="1" 
+AR Path="/5F7CF7BD/5F84F1B7" Ref="#PWR?"  Part="1" 
+AR Path="/5F84F1B7" Ref="#PWR0119"  Part="1" 
+F 0 "#PWR0119" H 5100 2100 50  0001 C CNN
+F 1 "GND" H 5105 2177 50  0000 C CNN
+F 2 "" H 5100 2350 50  0001 C CNN
+F 3 "" H 5100 2350 50  0001 C CNN
+	1    5100 2350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5100 2150 5100 2350
+Text Notes 4750 5450 0    118  ~ 24
+Hall Effect Sensors
+Wire Notes Line
+	4200 5800 7050 5800
+$Comp
+L Device:LED D?
+U 1 1 5F8558CA
+P 5200 3850
+AR Path="/5F7B6E63/5F8558CA" Ref="D?"  Part="1" 
+AR Path="/5F7CC063/5F8558CA" Ref="D?"  Part="1" 
+AR Path="/5F7CF7BD/5F8558CA" Ref="D?"  Part="1" 
+AR Path="/5F8558CA" Ref="D5"  Part="1" 
+F 0 "D5" V 5239 3733 50  0000 R CNN
+F 1 "LED_Yellow" V 5148 3733 50  0000 R CNN
+F 2 "LED_SMD:LED_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 5200 3850 50  0001 C CNN
+F 3 "~" H 5200 3850 50  0001 C CNN
+	1    5200 3850
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	5200 3600 5200 3700
+$Comp
+L Device:R R?
+U 1 1 5F8558D1
+P 5200 3450
+AR Path="/5F7B6E63/5F8558D1" Ref="R?"  Part="1" 
+AR Path="/5F7CC063/5F8558D1" Ref="R?"  Part="1" 
+AR Path="/5F7CF7BD/5F8558D1" Ref="R?"  Part="1" 
+AR Path="/5F8558D1" Ref="R12"  Part="1" 
+F 0 "R12" H 5131 3404 50  0000 R CNN
+F 1 "330" H 5131 3495 50  0000 R CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 5130 3450 50  0001 C CNN
+F 3 "~" H 5200 3450 50  0001 C CNN
+	1    5200 3450
+	1    0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5F8558D8
+P 5200 4200
+AR Path="/5F7B6E63/5F8558D8" Ref="#PWR?"  Part="1" 
+AR Path="/5F7BFBA0/5F8558D8" Ref="#PWR?"  Part="1" 
+AR Path="/5F7C314F/5F8558D8" Ref="#PWR?"  Part="1" 
+AR Path="/5F7CC063/5F8558D8" Ref="#PWR?"  Part="1" 
+AR Path="/5F7CF7BD/5F8558D8" Ref="#PWR?"  Part="1" 
+AR Path="/5F8558D8" Ref="#PWR0120"  Part="1" 
+F 0 "#PWR0120" H 5200 3950 50  0001 C CNN
+F 1 "GND" H 5205 4027 50  0000 C CNN
+F 2 "" H 5200 4200 50  0001 C CNN
+F 3 "" H 5200 4200 50  0001 C CNN
+	1    5200 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5200 4000 5200 4200
+Wire Wire Line
+	5100 1200 5100 1450
+Connection ~ 5100 1200
+Wire Wire Line
+	5100 1200 4950 1200
+Wire Wire Line
+	5200 3050 5200 3300
+Connection ~ 5200 3050
+Wire Wire Line
+	5200 3050 5700 3050
+$Comp
+L Device:R_POT RV1
+U 1 1 5F87A988
+P 10700 1700
+F 0 "RV1" H 10630 1654 50  0000 R CNN
+F 1 "R_POT" H 10630 1745 50  0000 R CNN
+F 2 "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical" H 10700 1700 50  0001 C CNN
+F 3 "~" H 10700 1700 50  0001 C CNN
+	1    10700 1700
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	9600 1700 10550 1700
+$Comp
+L power:+5V #PWR0122
+U 1 1 5F8834FB
+P 10700 1450
+F 0 "#PWR0122" H 10700 1300 50  0001 C CNN
+F 1 "+5V" H 10715 1623 50  0000 C CNN
+F 2 "" H 10700 1450 50  0001 C CNN
+F 3 "" H 10700 1450 50  0001 C CNN
+	1    10700 1450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10700 1450 10700 1550
+$Comp
+L power:GND #PWR0123
+U 1 1 5F8870F2
+P 10700 2000
+F 0 "#PWR0123" H 10700 1750 50  0001 C CNN
+F 1 "GND" H 10705 1827 50  0000 C CNN
+F 2 "" H 10700 2000 50  0001 C CNN
+F 3 "" H 10700 2000 50  0001 C CNN
+	1    10700 2000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10700 1850 10700 2000
+Wire Wire Line
+	1700 2000 1800 2000
+Wire Wire Line
+	1800 2000 1800 2100
+Connection ~ 1700 2000
+Wire Wire Line
+	1700 2000 1700 1900
+Text Notes 2200 4550 0    50   ~ 10
+Don't stress about these jumpers.\nJust connect a line straight from soft_reset
+Text Notes 5600 4250 0    50   ~ 10
+dont worry about the\nsecond hall effect sensor
+Wire Wire Line
+	8300 1800 8300 1950
+$Comp
+L power:GND #PWR0121
+U 1 1 5F875B74
+P 8300 1950
+F 0 "#PWR0121" H 8300 1700 50  0001 C CNN
+F 1 "GND" H 8305 1777 50  0000 C CNN
+F 2 "" H 8300 1950 50  0001 C CNN
+F 3 "" H 8300 1950 50  0001 C CNN
+	1    8300 1950
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8300 1800 8800 1800
 $EndSCHEMATC
